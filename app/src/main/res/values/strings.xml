@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Film Finder</string>
+    <string name="title">Фильмы</string>
 </resources>
