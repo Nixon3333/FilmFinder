@@ -1,13 +1,16 @@
-package com.finder.filmfinder;
+package com.finder.filmfinder.AdapterAndVH;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import com.finder.filmfinder.Fragments.DetailFragment;
+import com.finder.filmfinder.MainActivity;
+import com.finder.filmfinder.R;
 
 public class MyItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -18,7 +21,7 @@ public class MyItemViewHolder extends RecyclerView.ViewHolder {
     String desc;
     long year;
 
-    public MyItemViewHolder(@NonNull final View itemView) {
+    MyItemViewHolder(@NonNull final View itemView) {
 
         super(itemView);
         tvLocName = itemView.findViewById(R.id.tvLocName);

@@ -1,5 +1,5 @@
 
-package com.finder.filmfinder;
+package com.finder.filmfinder.Pojo;
 
 import android.support.annotation.NonNull;
 

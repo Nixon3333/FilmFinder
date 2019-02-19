@@ -1,6 +1,6 @@
-package com.finder.filmfinder;
+package com.finder.filmfinder.API;
 
-import java.util.List;
+import com.finder.filmfinder.Pojo.Films;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

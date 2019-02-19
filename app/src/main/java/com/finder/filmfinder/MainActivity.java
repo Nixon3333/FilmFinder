@@ -1,22 +1,26 @@
 package com.finder.filmfinder;
 
-import android.graphics.Typeface;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.finder.filmfinder.API.FilmsAPI;
+import com.finder.filmfinder.Fragments.MainFragment;
+import com.finder.filmfinder.Pojo.Film;
+import com.finder.filmfinder.Pojo.Films;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -29,9 +33,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected static Map<Long, List<Film>> filmMap = new TreeMap<>();
-    Toolbar toolbar;
-    static FragmentManager fragmentManager;
+    private Toolbar toolbar;
+    public static Map<Long, List<Film>> filmMap = new TreeMap<>();
+    public static FragmentManager fragmentManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                onBackPressed();// возврат на предыдущий activity
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
@@ -91,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Группируем полученный ответ по годам
     private TreeMap<Long, List<Film>> groupDataIntoTreeMap(List<Film> listOfFilms) {
 
         TreeMap<Long, List<Film>> groupedTreeMap = new TreeMap<>();
@@ -121,14 +127,19 @@ public class MainActivity extends AppCompatActivity {
         TextView toolbar_title = findViewById(R.id.toolbar_title);
         toolbar_title.setText(R.string.title);
 
+        //Центрируем заголовок без кнопки
+        Toolbar.LayoutParams llp = new Toolbar.LayoutParams(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.MATCH_PARENT);
+        llp.setMargins(40, 0, 40, 0); // llp.setMargins(left, top, right, bottom);
+        toolbar_title.setLayoutParams(llp);
+        toolbar_title.setGravity(Gravity.CENTER);
+
+        //Возвращаемся по стеку фрагметнов
         int count = getFragmentManager().getBackStackEntryCount();
 
         if (count == 0) {
             super.onBackPressed();
-            //additional code
         } else {
             getFragmentManager().popBackStack();
         }
-
     }
 }

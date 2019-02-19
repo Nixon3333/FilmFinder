@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Film Finder</string>
     <string name="title">Фильмы</string>
+    <string name="back_pressed_message">Нажмите \"назад\" ещё раз, чтобы выйти из приложения</string>
+    <string name="no_desc">Описания нет</string>
 </resources>

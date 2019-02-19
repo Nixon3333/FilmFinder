@@ -1,7 +1,10 @@
-package com.finder.filmfinder;
+package com.finder.filmfinder.AdapterAndVH;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.finder.filmfinder.Pojo.Film;
+import com.finder.filmfinder.R;
 
 import java.util.List;
 
@@ -10,8 +13,8 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.StatelessSection;
 
 public class MySection extends StatelessSection {
 
-    Long title;
-    List<Film> list;
+    private Long title;
+    private List<Film> list;
 
     public MySection(Long title, List<Film> list) {
         // call constructor with layout resources for this Section header and items
@@ -38,10 +41,14 @@ public class MySection extends StatelessSection {
     public void onBindItemViewHolder(RecyclerView.ViewHolder holder, int position) {
         MyItemViewHolder itemHolder = (MyItemViewHolder) holder;
 
-        // bind your view here
+        //Биндим ItemView
         itemHolder.tvLocName.setText(list.get(position).getLocalizedName());
         itemHolder.tvName.setText(list.get(position).getName());
         itemHolder.tvRating.setText(String.valueOf(list.get(position).getRating()));
+
+        if (itemHolder.tvRating.getText().equals("0.0"))
+            itemHolder.tvRating.setText("N/A");
+
         itemHolder.url = list.get(position).getImageUrl();
         itemHolder.desc = list.get(position).getDescription();
         itemHolder.year = list.get(position).getYear();
@@ -56,7 +63,7 @@ public class MySection extends StatelessSection {
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder) {
         MyHeaderViewHolder headerHolder = (MyHeaderViewHolder) holder;
 
-        // bind your header view here
+        //Биндим заголовок
         headerHolder.tvYear.setText(title.toString());
     }
 }
