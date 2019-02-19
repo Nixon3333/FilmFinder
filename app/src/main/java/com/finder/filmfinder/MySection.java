@@ -42,6 +42,9 @@ public class MySection extends StatelessSection {
         itemHolder.tvLocName.setText(list.get(position).getLocalizedName());
         itemHolder.tvName.setText(list.get(position).getName());
         itemHolder.tvRating.setText(String.valueOf(list.get(position).getRating()));
+        itemHolder.url = list.get(position).getImageUrl();
+        itemHolder.desc = list.get(position).getDescription();
+        itemHolder.year = list.get(position).getYear();
     }
 
     @Override

@@ -48,7 +48,7 @@ public class Film implements Comparable<Film>{
         return rating;
     }
 
-    public Object getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
