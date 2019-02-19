@@ -42,7 +42,15 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        TextView toolbar_title = findViewById(R.id.toolbar_title);
+        toolbar_title.setText(R.string.title);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                onBackPressed();// возврат на предыдущий activity
+            }
+        });
 
         makeRequest();
     }
@@ -107,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        TextView toolbar_title = findViewById(R.id.toolbar_title);
+        toolbar_title.setText(R.string.title);
 
         int count = getFragmentManager().getBackStackEntryCount();
 

@@ -31,6 +31,7 @@ public class MyItemViewHolder extends RecyclerView.ViewHolder {
                 Fragment fragment = new DetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("name", String.valueOf(tvName.getText()));
+                bundle.putString("locName", String.valueOf(tvLocName.getText()));
                 bundle.putString("urlImage", url);
                 bundle.putString("rating", String.valueOf(tvRating.getText()));
                 bundle.putString("year", String.valueOf(year));
