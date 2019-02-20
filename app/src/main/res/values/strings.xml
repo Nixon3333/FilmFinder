@@ -3,4 +3,5 @@
     <string name="title">Фильмы</string>
     <string name="back_pressed_message">Нажмите \"назад\" ещё раз, чтобы выйти из приложения</string>
     <string name="no_desc">Описания нет</string>
+    <string name="server_not_response">Извините, сервер не отвечает. Повторите запрос позже</string>
 </resources>

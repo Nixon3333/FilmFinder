@@ -1,7 +1,7 @@
 package com.finder.filmfinder;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,7 +33,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean isFirst;
     private Toolbar toolbar;
+    private SharedPreferences sharedPreferences;
     public static Map<Long, List<Film>> filmMap = new TreeMap<>();
     public static FragmentManager fragmentManager;
 
@@ -42,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        sharedPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        isFirst = sharedPreferences.getBoolean("isFirst", true);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -57,7 +63,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        makeRequest();
+
+        if (isFirst) {
+            makeRequest();
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isFirst", false);
+            editor.apply();
+        }
     }
 
     private void makeRequest() {
@@ -82,18 +95,22 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("mapData", map.getKey().toString() + " : " + map.getValue());
                     }
 
-                    Fragment fragment = new MainFragment();
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment, fragment);
-                    fragmentTransaction.commit();
+                    switchFragment(new MainFragment());
                 }
             }
 
             @Override
             public void onFailure(Call<Films> call, Throwable t) {
                 Log.d("responseError", t.getMessage());
+                Toast.makeText(getApplicationContext(), R.string.server_not_response, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void switchFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment, fragment);
+        fragmentTransaction.commit();
     }
 
     //Группируем полученный ответ по годам

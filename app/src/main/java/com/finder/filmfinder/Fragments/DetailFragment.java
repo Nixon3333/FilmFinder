@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,12 @@ import java.util.Objects;
 
 
 public class DetailFragment extends Fragment {
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -50,6 +57,8 @@ public class DetailFragment extends Fragment {
         TextView tvDetYear = view.findViewById(R.id.tvDetYear);
         TextView tvDetDesc = view.findViewById(R.id.tvDetDesc);
         TextView tvDetColorRating = view.findViewById(R.id.tvDetColorRating);
+
+        tvDetDesc.setMovementMethod(new ScrollingMovementMethod());
 
         Bundle bundle = this.getArguments();
 

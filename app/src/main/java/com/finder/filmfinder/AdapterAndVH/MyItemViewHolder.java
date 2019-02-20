@@ -44,6 +44,7 @@ public class MyItemViewHolder extends RecyclerView.ViewHolder {
                 fragment.setArguments(bundle);
 
 
+
                 FragmentTransaction fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragment, fragment);
                 fragmentTransaction.addToBackStack(null);
