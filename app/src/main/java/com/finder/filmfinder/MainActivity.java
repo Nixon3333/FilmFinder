@@ -1,6 +1,5 @@
 package com.finder.filmfinder;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -33,21 +32,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean isFirst;
     private Toolbar toolbar;
-    private SharedPreferences sharedPreferences;
     public static Map<Long, List<Film>> filmMap = new TreeMap<>();
     public static FragmentManager fragmentManager;
+    public static Fragment DetFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        sharedPreferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-        isFirst = sharedPreferences.getBoolean("isFirst", true);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -63,14 +57,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        if (isFirst) {
+        if (DetFragment == null)
             makeRequest();
-
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("isFirst", false);
-            editor.apply();
-        }
     }
 
     private void makeRequest() {

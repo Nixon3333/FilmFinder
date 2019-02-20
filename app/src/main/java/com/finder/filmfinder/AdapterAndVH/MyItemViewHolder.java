@@ -31,7 +31,7 @@ public class MyItemViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new DetailFragment();
+                MainActivity.DetFragment = new DetailFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("name", String.valueOf(tvName.getText()));
                 bundle.putString("locName", String.valueOf(tvLocName.getText()));
@@ -40,13 +40,10 @@ public class MyItemViewHolder extends RecyclerView.ViewHolder {
                 bundle.putString("year", String.valueOf(year));
                 bundle.putString("desc", desc);
 
-
-                fragment.setArguments(bundle);
-
-
+                MainActivity.DetFragment.setArguments(bundle);
 
                 FragmentTransaction fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment, fragment);
+                fragmentTransaction.replace(R.id.fragment, MainActivity.DetFragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
