@@ -30,7 +30,7 @@ public class DetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //Включаем кнопку "назад"
+        //Включаем кнопку "назад" в toolbar
         Objects.requireNonNull(((AppCompatActivity) Objects.requireNonNull(getActivity())).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
@@ -62,25 +62,29 @@ public class DetailFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
 
-        assert bundle != null;
-        tvDetName.setText(bundle.getString("name"));
-        tvDetColorRating.setText(bundle.getString("rating"));
+        if (bundle != null) {
 
-        if (tvDetColorRating.getText().equals("0.0"))
-            tvDetColorRating.setText("N/A");
+            tvDetName.setText(bundle.getString("name"));
+            tvDetColorRating.setText(bundle.getString("rating"));
 
-        tvDetYear.setText("Год: " + bundle.getString("year"));
-        tvDetDesc.setText(bundle.getString("desc"));
+            //Если не пришёл рейтинг
+            if (tvDetColorRating.getText().equals("0.0"))
+                tvDetColorRating.setText("N/A");
 
-        if (tvDetDesc.getText().equals(""))
-            tvDetDesc.setText(R.string.no_desc);
+            tvDetYear.setText(String.format("Год: %s", bundle.getString("year")));
+            tvDetDesc.setText(bundle.getString("desc"));
 
-        Picasso.with(getContext())
-                .load(bundle.getString("urlImage"))
-                .placeholder(R.drawable.no_image)
-                .into(imageView);
+            //Если не пришло описание
+            if (tvDetDesc.getText().toString().length() == 0)
+                tvDetDesc.setText(R.string.no_desc);
 
-        toolbar_title.setText(bundle.getString("locName"));
+            Picasso.with(getContext())
+                    .load(bundle.getString("urlImage"))
+                    .placeholder(R.drawable.no_image)
+                    .into(imageView);
+
+            toolbar_title.setText(bundle.getString("locName"));
+        }
 
         return view;
     }

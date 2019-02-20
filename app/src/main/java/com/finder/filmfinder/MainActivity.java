@@ -1,6 +1,7 @@
 package com.finder.filmfinder;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
+    private boolean backPressedOnce = false;
+
     public static Map<Long, List<Film>> filmMap = new TreeMap<>();
     public static FragmentManager fragmentManager;
     public static Fragment DetFragment;
@@ -45,11 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         TextView toolbar_title = findViewById(R.id.toolbar_title);
         toolbar_title.setText(R.string.title);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             makeRequest();
     }
 
+    //Делаем запрос
     private void makeRequest() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://s3-eu-west-1.amazonaws.com/")
@@ -95,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Меняем фрагмент
     public void switchFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment, fragment);
@@ -127,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        //Выключаем кнопку "назад" в toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         TextView toolbar_title = findViewById(R.id.toolbar_title);
@@ -134,17 +142,31 @@ public class MainActivity extends AppCompatActivity {
 
         //Центрируем заголовок без кнопки
         Toolbar.LayoutParams llp = new Toolbar.LayoutParams(Toolbar.LayoutParams.MATCH_PARENT, Toolbar.LayoutParams.MATCH_PARENT);
-        llp.setMargins(40, 0, 40, 0); // llp.setMargins(left, top, right, bottom);
+        llp.setMargins(0, 0, 0, 0);
         toolbar_title.setLayoutParams(llp);
         toolbar_title.setGravity(Gravity.CENTER);
 
-        //Возвращаемся по стеку фрагметнов
-        int count = getFragmentManager().getBackStackEntryCount();
+        //Двойное нажатие для выхода из приложения
+        if (backPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
 
-        if (count == 0) {
+        if (DetFragment != null && DetFragment.isVisible()) {
             super.onBackPressed();
         } else {
-            getFragmentManager().popBackStack();
+            this.backPressedOnce = true;
+            Toast.makeText(this, R.string.back_pressed_message, Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    backPressedOnce = false;
+                }
+            }, 2000);
         }
     }
+
+
 }
